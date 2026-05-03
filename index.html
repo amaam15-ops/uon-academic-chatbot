@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>المستشار الأكاديمي الذكي - جامعة نزوى</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{--green:#1a5c38;--green-dark:#0f3d25;--green-light:#2d8a55;--gold:#c8a84b;--gold-light:#e8c96a;--bg:#0a1a10;--card:#111f15;--card2:#162418;--text:#e8f5ec;--text2:#8ab89a;--muted:#4a7a5a;--border:#2a4a32;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Cairo',sans-serif;background:var(--bg);color:var(--text);height:100vh;display:flex;flex-direction:column;overflow:hidden;}
+  header{background:linear-gradient(135deg,var(--green-dark),var(--green),var(--green-light));padding:14px 20px;display:flex;align-items:center;gap:14px;border-bottom:2px solid var(--gold);flex-shrink:0;}
+  .logo{width:50px;height:50px;background:var(--gold);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
+  .ht h1{font-size:16px;font-weight:700;color:#fff;}
+  .ht p{font-size:11px;color:rgba(255,255,255,0.7);margin-top:2px;}
+  .badge{margin-right:auto;background:rgba(0,0,0,0.3);border:1px solid rgba(200,168,75,0.4);border-radius:20px;padding:5px 12px;font-size:11px;color:var(--gold-light);display:flex;align-items:center;gap:6px;}
+  .dot{width:7px;height:7px;background:#4ade80;border-radius:50%;animation:pulse 2s infinite;}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+  .qbar{padding:10px 16px;background:var(--card);border-bottom:1px solid var(--border);flex-shrink:0;}
+  .ql{font-size:11px;color:var(--muted);margin-bottom:7px;}
+  .qbtns{display:flex;gap:7px;flex-wrap:wrap;}
+  .qbtn{background:var(--card2);border:1px solid var(--border);border-radius:20px;padding:5px 13px;font-size:12px;font-family:'Cairo',sans-serif;color:var(--text2);cursor:pointer;transition:all 0.2s;}
+  .qbtn:hover{background:var(--green);border-color:var(--green-light);color:#fff;}
+  #msgs{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px;}
+  #msgs::-webkit-scrollbar{width:4px;}
+  #msgs::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
+  .row{display:flex;gap:10px;align-items:flex-end;animation:up 0.3s ease;}
+  .row.user{flex-direction:row-reverse;}
+  @keyframes up{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+  .av{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;border:2px solid var(--border);}
+  .av.bot{background:var(--green);border-color:var(--green-light);}
+  .av.user{background:var(--gold);border-color:var(--gold-light);}
+  .bubble{max-width:75%;padding:12px 16px;border-radius:18px;font-size:14px;line-height:1.8;}
+  .bubble.bot{background:var(--card);border:1px solid var(--border);border-bottom-right-radius:4px;}
+  .bubble.user{background:var(--green);border:1px solid var(--green-light);border-bottom-left-radius:4px;color:#fff;}
+  .btime{font-size:10px;color:var(--muted);margin-top:3px;text-align:center;}
+  .esc{background:linear-gradient(135deg,#1a2c1a,#2a4020);border:1px solid var(--gold);border-radius:10px;padding:10px 14px;margin-top:8px;font-size:12px;color:var(--gold-light);}
+  .esc strong{display:block;margin-bottom:4px;}
+  .fbrow{display:flex;gap:8px;margin-top:8px;align-items:center;}
+  .fbl{font-size:11px;color:var(--muted);}
+  .fb{background:transparent;border:1px solid var(--border);border-radius:20px;padding:3px 10px;font-size:13px;cursor:pointer;transition:all 0.2s;color:var(--text2);font-family:'Cairo',sans-serif;}
+  .fb:hover{border-color:var(--gold);}
+  .fb.up{background:rgba(74,222,128,0.15);border-color:#4ade80;}
+  .fb.dn{background:rgba(248,113,113,0.15);border-color:#f87171;}
+  .fbs{font-size:11px;color:var(--muted);margin-right:4px;}
+  .typing{display:flex;align-items:center;gap:5px;padding:12px 16px;background:var(--card);border:1px solid var(--border);border-radius:18px;border-bottom-right-radius:4px;width:fit-content;}
+  .tdot{width:7px;height:7px;background:var(--muted);border-radius:50%;animation:t 1.2s infinite;}
+  .tdot:nth-child(2){animation-delay:0.2s}.tdot:nth-child(3){animation-delay:0.4s}
+  @keyframes t{0%,60%,100%{transform:translateY(0);opacity:0.4}30%{transform:translateY(-6px);opacity:1}}
+  .iarea{padding:12px 16px;background:var(--card);border-top:1px solid var(--border);display:flex;gap:10px;align-items:flex-end;flex-shrink:0;}
+  #inp{flex:1;background:var(--bg);border:1.5px solid var(--border);border-radius:14px;padding:11px 16px;color:var(--text);font-family:'Cairo',sans-serif;font-size:14px;resize:none;outline:none;max-height:120px;transition:border-color 0.2s;direction:auto;}
+  #inp:focus{border-color:var(--green-light);}
+  #inp::placeholder{color:var(--muted);}
+  #sbtn{width:46px;height:46px;background:linear-gradient(135deg,var(--green),var(--green-light));border:none;border-radius:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;transition:all 0.2s;flex-shrink:0;}
+  #sbtn:hover{transform:scale(1.05);}
+  #sbtn:disabled{opacity:0.4;cursor:not-allowed;transform:none;}
+  .welcome{background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:16px;padding:20px;text-align:center;}
+  .welcome .ic{font-size:36px;margin-bottom:10px;}
+  .welcome h2{font-size:15px;color:var(--gold);margin-bottom:8px;}
+  .welcome p{font-size:13px;color:var(--text2);line-height:1.8;}
+  .pills{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin-top:12px;}
+  .pill{background:rgba(26,92,56,0.3);border:1px solid var(--green);border-radius:20px;padding:3px 10px;font-size:11px;color:var(--text2);}
+  .mtag{display:inline-block;font-size:10px;padding:2px 8px;border-radius:10px;margin-bottom:6px;}
+  .mkb{background:rgba(74,222,128,0.1);color:#4ade80;border:1px solid rgba(74,222,128,0.3);}
+  .mai{background:rgba(200,168,75,0.1);color:var(--gold-light);border:1px solid rgba(200,168,75,0.3);}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">🎓</div>
+  <div class="ht">
+    <h1>المستشار الأكاديمي الذكي — جامعة نزوى</h1>
+    <p>UoN Smart Academic Advisor · AI + Knowledge Base + RL Feedback</p>
+  </div>
+  <div class="badge"><div class="dot"></div>متاح دائماً</div>
+</header>
+<div class="qbar">
+  <div class="ql">⚡ أسئلة شائعة:</div>
+  <div class="qbtns">
+    <button class="qbtn" onclick="ask('ما هو نظام الإنذار الأكاديمي وكيف يؤثر على منحتي؟')">⚠️ الإنذار الأكاديمي</button>
+    <button class="qbtn" onclick="ask('كيف يحتسب المعدل التراكمي CGPA؟')">📊 المعدل التراكمي</button>
+    <button class="qbtn" onclick="ask('ما هي الكليات والبرامج في جامعة نزوى؟')">🏛️ الكليات والبرامج</button>
+    <button class="qbtn" onclick="ask('ما هي قواعد التسجيل وعدد الساعات المسموح بها؟')">📋 قواعد التسجيل</button>
+    <button class="qbtn" onclick="ask('كيف أتواصل مع مركز الإرشاد الأكاديمي؟')">📞 مركز الإرشاد</button>
+    <button class="qbtn" onclick="ask('ما هي شروط التخرج؟')">🎓 التخرج</button>
+    <button class="qbtn" onclick="ask('What programs does UoN offer?')">🇬🇧 English</button>
+  </div>
+</div>
+<div id="msgs">
+  <div class="welcome">
+    <div class="ic">🏛️</div>
+    <h2>أهلاً وسهلاً بك في المستشار الأكاديمي الذكي</h2>
+    <p>أنا هنا لمساعدتك في جميع استفساراتك المتعلقة بجامعة نزوى.<br>يمكنك السؤال باللغة العربية أو الإنجليزية.</p>
+    <div class="pills">
+      <span class="pill">🔬 كلية العلوم والآداب</span>
+      <span class="pill">💼 كلية الاقتصاد ونظم المعلومات</span>
+      <span class="pill">⚙️ كلية الهندسة والعمارة</span>
+      <span class="pill">💊 كلية الصيدلة والتمريض</span>
+    </div>
+  </div>
+</div>
+<div class="iarea">
+  <textarea id="inp" rows="1" placeholder="اكتب سؤالك هنا... (عربي أو إنجليزي)" onkeydown="hk(event)" oninput="rsz(this)"></textarea>
+  <button id="sbtn" onclick="send()">➤</button>
+</div>
+<script>
+const KEY='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';
+let hist=[],mc=0,rl={};
+
+const KB=[
+  {keys:['جامعة نزوى','عن الجامعة','university of nizwa','uon','تأسست','نشأة'],
+   ar:`**جامعة نزوى (UoN)**\n• تأسست **2004** — خاصة غير ربحية، نزوى، الداخلية\n• ~5,000–6,500 طالب | QS: 761–770 (2026)\n• الموقع: www.unizwa.edu.om`,
+   en:`**University of Nizwa (UoN)**\n• Founded **2004** — private non-profit, Nizwa\n• ~5,000–6,500 students | QS: 761–770 (2026)\n• Website: www.unizwa.edu.om`},
+  {keys:['الكليات','البرامج','التخصصات','colleges','programs','cas','cemis','cea','cpn','كلية العلوم','كلية الهندسة','كلية الصيدلة','كلية الاقتصاد'],
+   ar:`**الكليات الأربع:**\n🔬 **CAS** — علوم وآداب: عربي، إنجليزي، رياضيات، فيزياء، كيمياء، أحياء، حاسوب\n💼 **CEMIS** — اقتصاد وإدارة: محاسبة، إدارة أعمال، اقتصاد، نظم معلومات\n⚙️ **CEA** — هندسة وعمارة: مدني، كهربائي، ميكانيكي، عمارة\n💊 **CPN** — صيدلة وتمريض (معتمد ACEN)\n📚 **معهد التأسيس (FI):** للطلاب الجدد\n🎓 **الدرجات:** دبلوم → بكالوريوس (30+) → ماجستير (6)`,
+   en:`**The Four Colleges:**\n🔬 **CAS** — Arts & Sciences\n💼 **CEMIS** — Economics & Management\n⚙️ **CEA** — Engineering & Architecture\n💊 **CPN** — Pharmacy & Nursing (ACEN accredited)\n📚 **Foundation Institute (FI):** For new students\n🎓 **Degrees:** Diploma → Bachelor's (30+) → Master's (6)`},
+  {keys:['المعدل التراكمي','cgpa','gpa','نظام الدرجات','احتساب المعدل','grading'],
+   ar:`**نظام المعدل التراكمي:**\nA=4.0 (90-100%) | A-=3.7 | B+=3.3 | B=3.0 | B-=2.7\nC+=2.3 | C=2.0 | D+=1.3 | D=1.0 | F=0.0\n⚠️ **الحد الأدنى للنجاح: 2.0**`,
+   en:`**CGPA System:**\nA=4.0(90-100%)|A-=3.7|B+=3.3|B=3.0|B-=2.7\nC+=2.3|C=2.0|D+=1.3|D=1.0|F=0.0\n⚠️ **Minimum passing CGPA: 2.0**`},
+  {keys:['الإنذار الأكاديمي','إنذار أكاديمي','academic probation','academic warning','سحب قسري'],
+   ar:`**نظام الإنذار الأكاديمي:**\n⚠️ **الأول:** المعدل أقل من 2.0\n🔴 **الثاني:** خطر على المنحة\n❌ **الثالث:** ثلاثة فصول → **سحب قسري**\n💡 80%+ من الطلاب يحملون منحاً حكومية`,
+   en:`**Academic Warning System:**\n⚠️ **1st:** CGPA below 2.0\n🔴 **2nd:** Scholarship at risk\n❌ **3rd:** Three semesters → **Compulsory withdrawal**`},
+  {keys:['قواعد التسجيل','التسجيل الدراسي','عدد الساعات المسموح','الحد الأدنى للساعات','الحد الأقصى للساعات','course registration'],
+   ar:`**قواعد التسجيل:**\n📚 الحد الأدنى: **12 ساعة** | الحد الأقصى: **18 ساعة**\n• المتطلبات السابقة إلزامية\n• الانسحاب من مادة له موعد نهائي`,
+   en:`**Registration Rules:**\n📚 Min: **12 credits** | Max: **18 credits**\n• Prerequisites are mandatory\n• Course withdrawal has a hard deadline`},
+  {keys:['شروط التخرج','متطلبات التخرج','graduation requirements','ساعات التخرج'],
+   ar:`**شروط التخرج:**\n🎓 إتمام الساعات المطلوبة (**120–135** للبكالوريوس)\n• معدل تراكمي **2.0** على الأقل\n• تقديم طلب عبر عمادة التسجيل`,
+   en:`**Graduation Requirements:**\n🎓 Complete **120–135** credit hours\n• Minimum CGPA **2.0**\n• Apply through Deanship of Registration`},
+  {keys:['مركز الإرشاد','مركز الإرشاد الأكاديمي','academic guidance','advising centre','المرشد الأكاديمي'],
+   ar:`**مركز الإرشاد والمتابعة الأكاديمية:**\n📅 الأول يُخدَم أولاً | أولوية لطلاب الإنذار\n• غيابان متتاليان = حظر مؤقت\n📞 **+968 25 446234** | 🌐 **www.unizwa.edu.om**`,
+   en:`**Centre for Academic Guidance:**\n📅 First come first served | Priority for at-risk students\n• Two no-shows = temporary suspension\n📞 **+968 25 446234** | 🌐 **www.unizwa.edu.om**`}
+];
+
+function kbFind(q){
+  const ql=q.toLowerCase();let best=null,bs=0;
+  for(const e of KB){
+    let s=0;
+    for(const k of e.keys){if(ql.includes(k.toLowerCase()))s+=k.length;}
+    if(s>bs){bs=s;best=e;}
+  }
+  return bs>5?best:null;
+}
+function detectLang(t){return(t.match(/[\u0600-\u06FF]/g)||[]).length>t.length*0.25?'ar':'en';}
+function needsEsc(q){return['شخصي','personal','appeal','استئناف','مرض','ظروف','شكوى','خايف','قلق'].some(k=>q.toLowerCase().includes(k));}
+
+function vote(id,v,btn){
+  if(rl[id]!==undefined)return;rl[id]=v;
+  const row=document.getElementById('fb-'+id);if(!row)return;
+  row.querySelectorAll('.fb').forEach(b=>b.disabled=true);
+  btn.classList.add(v===1?'up':'dn');
+  const s=document.getElementById('fbs-'+id);if(s)s.textContent=v===1?'✓ شكراً!':'✓ سنحسّن';
+}
+function fbHTML(id){
+  return `<div class="fbrow" id="fb-${id}"><span class="fbl">هل أفادتك الإجابة؟</span><button class="fb" onclick="vote(${id},1,this)">👍</button><button class="fb" onclick="vote(${id},-1,this)">👎</button><span class="fbs" id="fbs-${id}"></span></div>`;
+}
+
+async function callAI(msg,ln){
+  const sys=ln==='ar'
+    ?`أنت المستشار الأكاديمي الذكي لجامعة نزوى في سلطنة عُمان. تحدث باللهجة العُمانية الدافئة. استخدم تعابير مثل "والله يا طالب"، "زين سؤالك"، "خير إن شاء الله"، "ما تشيل هم". جامعة نزوى: 4 كليات (CAS,CEMIS,CEA,CPN)، نظام إنذار ثلاثي، مركز الإرشاد: +968 25 446234. كن مفيداً وموجزاً.`
+    :`You are the AI Academic Advisor for University of Nizwa, Oman. Be warm and concise. UoN has 4 colleges, 3-warning probation system, Guidance Centre: +968 25 446234.`;
+  const r=await fetch('https://api.anthropic.com/v1/messages',{
+    method:'POST',
+    headers:{
+      'Content-Type':'application/json',
+      'x-api-key':KEY,
+      'anthropic-version':'2023-06-01',
+      'anthropic-dangerous-direct-browser-access':'true'
+    },
+    body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:500,system:sys,messages:[...hist,{role:'user',content:msg}]})
+  });
+  const d=await r.json();
+  if(d.error)throw new Error(d.error.message);
+  return d.content[0].text;
+}
+
+function gt(){return new Date().toLocaleTimeString('ar',{hour:'2-digit',minute:'2-digit'});}
+function escH(t){return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function fmt(t){return t.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>');}
+
+function addUser(t){
+  const c=document.getElementById('msgs'),d=document.createElement('div');d.className='row user';
+  d.innerHTML=`<div class="av user">👤</div><div><div class="bubble user">${escH(t)}</div><div class="btime">${gt()}</div></div>`;
+  c.appendChild(d);sc();
+}
+function addBot(t,escalate,mode){
+  const id=++mc,c=document.getElementById('msgs'),d=document.createElement('div');d.className='row';
+  const tag=mode==='ai'?`<div class="mtag mai">🤖 ذكاء اصطناعي</div><br>`:`<div class="mtag mkb">📚 قاعدة المعرفة</div><br>`;
+  const ev=escalate?`<div class="esc"><strong>🤝 هذا الأمر يستدعي مستشاراً بشرياً</strong>📞 +968 25 446234 | 🌐 www.unizwa.edu.om</div>`:'';
+  d.innerHTML=`<div class="av bot">🤖</div><div style="max-width:75%"><div class="bubble bot">${tag}${fmt(t)}${ev}${fbHTML(id)}</div><div class="btime">${gt()}</div></div>`;
+  c.appendChild(d);sc();
+}
+function showT(){
+  const c=document.getElementById('msgs'),d=document.createElement('div');d.className='row';d.id='ty';
+  d.innerHTML=`<div class="av bot">🤖</div><div class="typing"><div class="tdot"></div><div class="tdot"></div><div class="tdot"></div></div>`;
+  c.appendChild(d);sc();
+}
+function rmT(){const e=document.getElementById('ty');if(e)e.remove();}
+function sc(){const c=document.getElementById('msgs');c.scrollTop=c.scrollHeight;}
+function rsz(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeight,120)+'px';}
+function hk(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send();}}
+function ask(t){document.getElementById('inp').value=t;send();}
+
+async function send(){
+  const inp=document.getElementById('inp'),text=inp.value.trim();if(!text)return;
+  inp.value='';inp.style.height='auto';
+  document.getElementById('sbtn').disabled=true;
+  addUser(text);hist.push({role:'user',content:text});showT();
+  const ln=detectLang(text),kb=kbFind(text),doEsc=needsEsc(text);
+  try{
+    if(kb&&!doEsc){
+      await new Promise(r=>setTimeout(r,400));rmT();
+      addBot(kb[ln],false,'kb');
+      hist.push({role:'assistant',content:kb[ln]});
+    }else{
+      const reply=await callAI(text,ln);rmT();
+      addBot(reply,doEsc,'ai');
+      hist.push({role:'assistant',content:reply});
+    }
+  }catch(err){
+    rmT();
+    if(kb){addBot(kb[ln],doEsc,'kb');}
+    else{addBot(ln==='ar'?'ما تشيل هم! تواصل مع مركز الإرشاد:\n📞 +968 25 446234':'Contact Guidance Centre:\n📞 +968 25 446234',true,'kb');}
+  }
+  document.getElementById('sbtn').disabled=false;
+}
+</script>
+</body>
+</html>
